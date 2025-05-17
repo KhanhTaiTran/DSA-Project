@@ -1,7 +1,5 @@
 
-import javax.swing.JButton;
 import game.*;
-import ui.GUI;
 
 public class App {
 
