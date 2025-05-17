@@ -1,17 +1,20 @@
 package ui;
 
 import javax.swing.*;
+import Constants.Constants;
 
 public class GUI {
     private JFrame frame;
     private JPanel panel;
+    private int HEIGHT = Constants.HEIGHT;
+    private int WIDTH = Constants.WIDTH;
 
     public GUI() {
         frame = new JFrame("2048 Game");
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         frame.add(panel);
-        frame.setSize(400, 400);
+        frame.setSize(HEIGHT, WIDTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
