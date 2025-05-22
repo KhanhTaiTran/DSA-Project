@@ -8,9 +8,7 @@ import game.Board;
 import game.AI;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.JOptionPane;
+
 import animation.TileAnimation;
 
 public class GameBoard extends JPanel {
@@ -19,48 +17,47 @@ public class GameBoard extends JPanel {
     private static final int TILE_SIZE = 90;
     private static final int TILE_MARGIN = 16;
     private static final int BOARD_SIZE = TILE_SIZE * GRID_SIZE + TILE_MARGIN * (GRID_SIZE + 1);
+    private game.GameLogic gameLogic;
+    private int bestScore = 0;
     private Board board;
     private AI ai;
-    private int bestScore = 0;
 
     public GameBoard() {
         setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE + 160));
         setBackground(new Color(250, 248, 239));
         setFont(new Font("SansSerif", Font.BOLD, 36));
-        board = new Board();
-        board.initialize();
-        ai = new AI();
+        gameLogic = new game.GameLogic();
+        gameLogic.initialize();
 
         setFocusable(true);
         requestFocusInWindow();
         addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (board.isGameOver())
+                if (gameLogic.isGameOver())
                     return;
                 String move = null;
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_UP:
+                    case KeyEvent.VK_W:
                         move = "up";
                         break;
                     case KeyEvent.VK_DOWN:
+                    case KeyEvent.VK_S:
                         move = "down";
                         break;
                     case KeyEvent.VK_LEFT:
+                    case KeyEvent.VK_A:
                         move = "left";
                         break;
                     case KeyEvent.VK_RIGHT:
+                    case KeyEvent.VK_D:
                         move = "right";
                         break;
                     case KeyEvent.VK_U:
-                        board.undo();
+                        gameLogic.undo();
                         repaint();
                         return;
-                    case KeyEvent.VK_A:
-                        String aiMove = ai.findBestMove(board);
-                        if (aiMove != null)
-                            move = aiMove;
-                        break;
                 }
                 if (move != null) {
                     animateMove(move);
@@ -71,12 +68,12 @@ public class GameBoard extends JPanel {
 
     // Animate a move
     private void animateMove(String direction) {
-        int[][] before = board.getGrid();
+        int[][] before = gameLogic.getGrid();
         int[][] beforeCopy = new int[GRID_SIZE][GRID_SIZE];
         for (int i = 0; i < GRID_SIZE; i++)
             System.arraycopy(before[i], 0, beforeCopy[i], 0, GRID_SIZE);
-        board.move(direction);
-        int[][] after = board.getGrid();
+        gameLogic.move(direction);
+        int[][] after = gameLogic.getGrid();
         animations.clear();
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
@@ -109,25 +106,18 @@ public class GameBoard extends JPanel {
         if (getScore() > bestScore)
             bestScore = getScore();
         repaint();
-        if (board.isGameOver()) {
+        if (gameLogic.isGameOver()) {
             JOptionPane.showMessageDialog(GameBoard.this, "Game Over!", "2048", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
     public void restart() {
-        board.initialize();
+        gameLogic.initialize();
         repaint();
     }
 
     public int getScore() {
-        int score = 0;
-        int[][] grid = board.getGrid();
-        for (int[] row : grid) {
-            for (int tile : row) {
-                score += tile;
-            }
-        }
-        return score;
+        return gameLogic.getScore();
     }
 
     @Override
@@ -153,7 +143,7 @@ public class GameBoard extends JPanel {
         }
 
         // Draw tiles (if not animating, or always for now)
-        int[][] grid = board.getGrid();
+        int[][] grid = gameLogic.getGrid();
         for (int row = 0; row < GRID_SIZE; row++) {
             for (int col = 0; col < GRID_SIZE; col++) {
                 drawTile(g2, grid[row][col], col, row);
