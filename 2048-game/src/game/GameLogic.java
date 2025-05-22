@@ -1,27 +1,47 @@
+
 package game;
 
 import java.util.Random;
 import java.util.Stack;
 
-import Constants.Constants;
-
-public class Board {
+public class GameLogic {
     private int[][] grid;
-    private static final int SIZE = Constants.SIZE;
-    private Stack<PrevState> undoStack;
+    private static final int SIZE = 4; // size of the grid
+    private Stack<PrevState> undoStack; // stack to keep track of game states for undo functionality
     private int score = 0;
-    private GameLogic gameLogic;
 
-    public Board() {
+    public int[][] getGrid() {
+        int[][] copy = new int[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            System.arraycopy(grid[i], 0, copy[i], 0, SIZE); // create a copy of the grid
+        }
+        return copy;
+    }
+
+    public void initialize() {
+        grid = new int[SIZE][SIZE];
+        score = 0;
+        addRandomTile();
+        addRandomTile();
+        undoStack.clear();
+    }
+
+    public GameLogic() {
         grid = new int[SIZE][SIZE];
         undoStack = new Stack<>();
         score = 0;
     }
 
-    // Undo the last move
+    // save the current state to the undo stack
+    public void saveState() {
+        undoStack.push(new PrevState(grid, score));
+    }
+
+    // undo the last move
     public void undo() {
-        if (!undoStack.isEmpty()) {
-            PrevState prev = undoStack.pop();
+        if (!undoStack.isEmpty()) { // is moved?
+            PrevState prev = undoStack.pop(); // get the last saved state
+            // restore the grid and score from the saved state
             this.grid = prev.grid;
             this.score = prev.score;
         } else {
@@ -30,11 +50,11 @@ public class Board {
     }
 
     public void move(String direction) {
-        gameLogic.saveState(); // Save the current state before making a move
+        saveState(); // save the current state before making a move
         int[][] before = new int[SIZE][SIZE];
-        for (int i = 0; i < SIZE; i++)
+        for (int i = 0; i < SIZE; i++) {
             System.arraycopy(grid[i], 0, before[i], 0, SIZE);
-        int oldScore = score;
+        }
         boolean canMove = false;
         switch (direction.toLowerCase()) {
             case "up":
@@ -60,15 +80,14 @@ public class Board {
             default:
                 System.out.println("Invalid direction. Use up, down, left, or right.");
         }
-        if (canMove && !isSameGrid(before, grid)) {
-            addRandomTile();
+        if (canMove && !isSameGrid(before, grid)) { // check if the grid has changed
+            addRandomTile(); // add a random tile if a move was made
         } else {
-            undoStack.pop(); // Revert the save if no move was made
-            score = oldScore;
             System.out.println("No tiles can be moved in this direction.");
         }
     }
 
+    // check if the current grid is the same as the previous grid
     private boolean isSameGrid(int[][] a, int[][] b) {
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
@@ -82,12 +101,18 @@ public class Board {
     public void addRandomTile() {
         Random random = new Random();
         int emptyCount = 0;
-        for (int i = 0; i < SIZE; i++)
-            for (int j = 0; j < SIZE; j++)
-                if (grid[i][j] == 0)
+        // check how many empty tiles are there
+        for (int i = 0; i < SIZE; i++) {
+            for (int j = 0; j < SIZE; j++) {
+                if (grid[i][j] == 0) {
                     emptyCount++;
-        if (emptyCount == 0)
+                }
+            }
+        }
+        // if there are no empty tiles, return
+        if (emptyCount == 0) {
             return;
+        }
         int pos = random.nextInt(emptyCount);
         int k = 0;
         for (int i = 0; i < SIZE; i++) {
@@ -279,6 +304,10 @@ public class Board {
         }
     }
 
+    public int getScore() {
+        return score;
+    }
+
     // check if the game is over
     public boolean isGameOver() {
         for (int row = 0; row < SIZE; row++) {
@@ -295,34 +324,5 @@ public class Board {
             }
         }
         return true;
-    }
-
-    public int[][] getGrid() {
-        int[][] copy = new int[SIZE][SIZE];
-        for (int i = 0; i < SIZE; i++) {
-            System.arraycopy(grid[i], 0, copy[i], 0, SIZE);
-        }
-        return copy;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void initialize() {
-        grid = new int[SIZE][SIZE];
-        score = 0;
-        addRandomTile();
-        addRandomTile();
-        undoStack.clear();
-    }
-
-    public void printBoard() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                System.out.print(grid[i][j] + "\t");
-            }
-            System.out.println();
-        }
     }
 }
