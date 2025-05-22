@@ -55,7 +55,6 @@ public class GameLogic {
         for (int i = 0; i < SIZE; i++) {
             System.arraycopy(grid[i], 0, before[i], 0, SIZE);
         }
-        int oldScore = score;
         boolean canMove = false;
         switch (direction.toLowerCase()) {
             case "up":

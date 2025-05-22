@@ -51,14 +51,16 @@ public class WelcomePanel2048 extends JFrame {
         startButton.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
         startButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-        // For now, just show a message dialog on click
+        // Updated action listener to navigate to GameBoard2048
         startButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(WelcomePanel2048.this,
-                        "Starting the 2048 game...\n(Feature coming soon!)",
-                        "Start Game",
-                        JOptionPane.INFORMATION_MESSAGE);
+                // Close the welcome screen
+                dispose();
+
+                // Open the game board
+                Game2048 gameBoard = new Game2048();
+                gameBoard.setVisible(true);
             }
         });
 
@@ -73,18 +75,5 @@ public class WelcomePanel2048 extends JFrame {
         mainPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         add(mainPanel);
-    }
-
-    public static void main(String[] args) {
-        // Use system look and feel for better native appearance
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception ignored) {
-        }
-
-        SwingUtilities.invokeLater(() -> {
-            WelcomePanel2048 welcomeFrame = new WelcomePanel2048();
-            welcomeFrame.setVisible(true);
-        });
     }
 }

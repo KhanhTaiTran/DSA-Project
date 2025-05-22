@@ -17,9 +17,9 @@ public class GameBoard extends JPanel {
     private static final int TILE_SIZE = 90;
     private static final int TILE_MARGIN = 16;
     private static final int BOARD_SIZE = TILE_SIZE * GRID_SIZE + TILE_MARGIN * (GRID_SIZE + 1);
-    private game.GameLogic gameLogic;
+    public game.GameLogic gameLogic; // Changed to public for access from GameBoard2048
     private int bestScore = 0;
-    private Board board;
+    Board board;
     private AI ai;
 
     public GameBoard() {
