@@ -1,0 +1,10 @@
+{
+  "java.project.sourcePaths": ["src", "2048-game\\src"],
+  "java.project.outputPath": "bin",
+  "java.project.referencedLibraries": [
+    "lib/**/*.jar",
+    "2048-game\\lib\\**\\*.jar",
+    "external-libs/**/*.jar",
+    "2048-game\\external-libs\\**\\*.jar"
+  ]
+}

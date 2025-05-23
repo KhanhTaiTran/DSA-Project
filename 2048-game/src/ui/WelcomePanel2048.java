@@ -158,27 +158,50 @@ public class WelcomePanel2048 extends JFrame {
         logoPanel.add(titleLabel, BorderLayout.NORTH);
         logoPanel.add(descPanel, BorderLayout.CENTER);
 
-        // Start button with improved styling
-        JButton startButton = new JButton("START GAME");
-        startButton.setFont(new Font("SansSerif", Font.BOLD, 22));
-        startButton.setBackground(Constants.BUTTON_COLOR); // Use constant
-        startButton.setForeground(Color.WHITE);
-        startButton.setFocusPainted(false);
-        startButton.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 30));
-        startButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        // Replace text start button with image button
+        JButton startButton = new JButton();
+        try {
+            // Load both normal and hover state button images
+            ImageIcon normalPlayIcon = new ImageIcon(getClass().getResource("/resource/play_button.png"));
+            ImageIcon hoverPlayIcon = new ImageIcon(getClass().getResource("/resource/play_button_hover.png"));
 
-        // Add hover effect
-        startButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                startButton.setBackground(Constants.BUTTON_HOVER_COLOR); // Use constant
-            }
+            // Scale the images to the same size
+            Image normalImg = normalPlayIcon.getImage();
+            Image normalScaledImg = normalImg.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
+            ImageIcon scaledNormalIcon = new ImageIcon(normalScaledImg);
 
-            @Override
-            public void mouseExited(MouseEvent e) {
-                startButton.setBackground(Constants.BUTTON_COLOR); // Use constant
-            }
-        });
+            Image hoverImg = hoverPlayIcon.getImage();
+            Image hoverScaledImg = hoverImg.getScaledInstance(150, 100, Image.SCALE_SMOOTH);
+            ImageIcon scaledHoverIcon = new ImageIcon(hoverScaledImg);
+
+            startButton.setIcon(scaledNormalIcon);
+            startButton.setBorderPainted(false);
+            startButton.setContentAreaFilled(false);
+            startButton.setFocusPainted(false);
+            startButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+            // Update mouse listener to swap images on hover
+            startButton.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    startButton.setIcon(scaledHoverIcon);
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    startButton.setIcon(scaledNormalIcon);
+                }
+            });
+        } catch (Exception e) {
+            // Fallback to text button if image can't be loaded
+            startButton.setText("START GAME");
+            startButton.setFont(new Font("SansSerif", Font.BOLD, 22));
+            startButton.setBackground(Constants.BUTTON_COLOR);
+            startButton.setForeground(Color.WHITE);
+            startButton.setFocusPainted(false);
+            startButton.setBorder(BorderFactory.createEmptyBorder(15, 30, 15, 30));
+            System.err.println("Could not load play button image: " + e.getMessage());
+        }
 
         // Updated action listener to navigate to GameBoard2048
         startButton.addActionListener(new ActionListener() {

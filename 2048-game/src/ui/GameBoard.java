@@ -129,11 +129,27 @@ public class GameBoard extends JPanel {
                         int startY = 100 + TILE_MARGIN + fromRow * (TILE_SIZE + TILE_MARGIN);
                         int endX = (getWidth() - BOARD_SIZE) / 2 + TILE_MARGIN + col * (TILE_SIZE + TILE_MARGIN);
                         int endY = 100 + TILE_MARGIN + row * (TILE_SIZE + TILE_MARGIN);
+
+                        // Determine if this is a merge animation
+                        animation.TileAnimation.Type animType = animation.TileAnimation.Type.MOVE;
+                        if (beforeCopy[fromRow][fromCol] < after[row][col]) {
+                            animType = animation.TileAnimation.Type.MERGE;
+                        }
+
                         TileAnimation anim = new TileAnimation(startX, startY, endX, endY, after[row][col], 150,
-                                this::repaint);
+                                this::repaint, animType);
                         animations.add(anim);
                         anim.start();
                     }
+                } else if (after[row][col] != 0 && beforeCopy[row][col] == 0) {
+                    // This is a new tile, add pop-in animation
+                    int x = (getWidth() - BOARD_SIZE) / 2 + TILE_MARGIN + col * (TILE_SIZE + TILE_MARGIN);
+                    int y = 100 + TILE_MARGIN + row * (TILE_SIZE + TILE_MARGIN);
+
+                    TileAnimation anim = new TileAnimation(x, y, x, y, after[row][col], 150,
+                            this::repaint, animation.TileAnimation.Type.NEW);
+                    animations.add(anim);
+                    anim.start();
                 }
             }
         }

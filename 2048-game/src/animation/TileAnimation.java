@@ -2,6 +2,7 @@ package animation;
 
 import javax.swing.*;
 import java.awt.*;
+import Constants.Constants;
 
 public class TileAnimation {
     public enum Type {
@@ -94,37 +95,37 @@ public class TileAnimation {
     private Color getTileColor(int value) {
         switch (value) {
             case 0:
-                return new Color(205, 193, 180);
+                return Constants.TILE_COLOR_EMPTY;
             case 2:
-                return new Color(238, 228, 218);
+                return Constants.TILE_COLOR_2;
             case 4:
-                return new Color(237, 224, 200);
+                return Constants.TILE_COLOR_4;
             case 8:
-                return new Color(242, 177, 121);
+                return Constants.TILE_COLOR_8;
             case 16:
-                return new Color(245, 149, 99);
+                return Constants.TILE_COLOR_16;
             case 32:
-                return new Color(246, 124, 95);
+                return Constants.TILE_COLOR_32;
             case 64:
-                return new Color(246, 94, 59);
+                return Constants.TILE_COLOR_64;
             case 128:
-                return new Color(237, 207, 114);
+                return Constants.TILE_COLOR_128;
             case 256:
-                return new Color(237, 204, 97);
+                return Constants.TILE_COLOR_256;
             case 512:
-                return new Color(237, 200, 80);
+                return Constants.TILE_COLOR_512;
             case 1024:
-                return new Color(237, 197, 63);
+                return Constants.TILE_COLOR_1024;
             case 2048:
-                return new Color(237, 194, 46);
+                return Constants.TILE_COLOR_2048;
             default:
-                return new Color(60, 58, 50);
+                return Constants.TILE_COLOR_SUPER;
         }
     }
 
     private Color getTextColor(int value) {
         if (value <= 4) {
-            return new Color(119, 110, 101);
+            return Constants.TEXT_COLOR_LIGHT;
         } else {
             return Color.WHITE;
         }
