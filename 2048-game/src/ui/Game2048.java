@@ -3,9 +3,6 @@ package ui;
 import javax.swing.*;
 import java.awt.*;
 
-/**
- * Main game window that contains the GameBoard panel
- */
 public class Game2048 extends JFrame {
 
     private GameBoard gameBoard;
@@ -20,11 +17,13 @@ public class Game2048 extends JFrame {
 
         // Create control buttons
         JPanel buttonPanel = new JPanel();
-        JButton restartBtn = new JButton("Restart");
+        JButton restartBtn = new JButton("Restart (R)");
         JButton undoBtn = new JButton("Undo (U)");
+        JButton aiBtn = new JButton("AI Move (I)");
 
         buttonPanel.add(restartBtn);
         buttonPanel.add(undoBtn);
+        buttonPanel.add(aiBtn);
 
         // Add action listeners to buttons
         restartBtn.addActionListener(e -> {
@@ -35,6 +34,11 @@ public class Game2048 extends JFrame {
         undoBtn.addActionListener(e -> {
             gameBoard.gameLogic.undo();
             gameBoard.repaint();
+            gameBoard.requestFocusInWindow();
+        });
+
+        aiBtn.addActionListener(e -> {
+            gameBoard.performAIMove();
             gameBoard.requestFocusInWindow();
         });
 

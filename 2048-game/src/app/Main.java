@@ -3,7 +3,7 @@ package app;
 import ui.WelcomePanel2048;
 import javax.swing.*;
 
-public class Game2048 {
+public class Main {
 
     public static void main(String[] args) {
         try {
