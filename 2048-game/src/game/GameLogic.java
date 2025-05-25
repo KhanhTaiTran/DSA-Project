@@ -172,7 +172,7 @@ public class GameLogic {
         return false;
     }
 
-    private void moveUp() {
+    void moveUp() {
         for (int col = 0; col < SIZE; col++) {
             int[] compressed = compressColumn(col);
             mergeTiles(compressed);
@@ -180,7 +180,7 @@ public class GameLogic {
         }
     }
 
-    private void moveDown() {
+    void moveDown() {
         for (int col = 0; col < SIZE; col++) {
             int[] compressed = compressColumnReverse(col);
             mergeTiles(compressed);
@@ -188,7 +188,7 @@ public class GameLogic {
         }
     }
 
-    private void moveLeft() {
+    void moveLeft() {
         for (int row = 0; row < SIZE; row++) {
             int[] compressed = compressRow(row);
             mergeTiles(compressed);
@@ -196,7 +196,7 @@ public class GameLogic {
         }
     }
 
-    private void moveRight() {
+    void moveRight() {
         for (int row = 0; row < SIZE; row++) {
             int[] compressed = compressRowReverse(row);
             mergeTiles(compressed);
@@ -324,5 +324,9 @@ public class GameLogic {
             }
         }
         return true;
+    }
+
+    public void setScore(int score2) {
+        this.score = score2;
     }
 }

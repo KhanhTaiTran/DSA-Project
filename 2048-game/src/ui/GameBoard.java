@@ -10,12 +10,13 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import animation.TileAnimation;
+import Constants.Constants;
 
 public class GameBoard extends JPanel {
     private List<TileAnimation> animations = new ArrayList<>();
-    private static final int GRID_SIZE = 4;
-    private static final int TILE_SIZE = 90;
-    private static final int TILE_MARGIN = 16;
+    private static final int GRID_SIZE = Constants.SIZE;;
+    private static final int TILE_SIZE = Constants.TILE_SIZE;
+    private static final int TILE_MARGIN = Constants.TILE_MARGIN;
     private static final int BOARD_SIZE = TILE_SIZE * GRID_SIZE + TILE_MARGIN * (GRID_SIZE + 1);
     public game.GameLogic gameLogic; // Changed to public for access from GameBoard2048
     private int bestScore = 0;
@@ -28,6 +29,10 @@ public class GameBoard extends JPanel {
         setFont(new Font("SansSerif", Font.BOLD, 36));
         gameLogic = new game.GameLogic();
         gameLogic.initialize();
+
+        // Initialize AI
+        ai = new AI();
+        board = new Board();
 
         setFocusable(true);
         requestFocusInWindow();
@@ -58,12 +63,41 @@ public class GameBoard extends JPanel {
                         gameLogic.undo();
                         repaint();
                         return;
+                    // Add new keyboard shortcuts
+                    case KeyEvent.VK_I:
+                        // AI Move
+                        performAIMove();
+                        return;
+                    case KeyEvent.VK_R:
+                        // Reset game
+                        restart();
+                        return;
                 }
                 if (move != null) {
                     animateMove(move);
                 }
             }
         });
+    }
+
+    // Make performAIMove public so it can be called from Game2048
+    public void performAIMove() {
+        if (gameLogic.isGameOver()) {
+            return;
+        }
+
+        // Synchronize the board with the current gameLogic state
+        int[][] currentGrid = gameLogic.getGrid();
+        board.setGrid(currentGrid);
+        board.gameLogic.setScore(gameLogic.getScore());
+
+        // Get AI move
+        String aiMove = ai.findBestMove(board);
+
+        // Apply the move if valid
+        if (aiMove != null && !aiMove.isEmpty()) {
+            animateMove(aiMove);
+        }
     }
 
     // Animate a move
@@ -95,11 +129,27 @@ public class GameBoard extends JPanel {
                         int startY = 100 + TILE_MARGIN + fromRow * (TILE_SIZE + TILE_MARGIN);
                         int endX = (getWidth() - BOARD_SIZE) / 2 + TILE_MARGIN + col * (TILE_SIZE + TILE_MARGIN);
                         int endY = 100 + TILE_MARGIN + row * (TILE_SIZE + TILE_MARGIN);
+
+                        // Determine if this is a merge animation
+                        animation.TileAnimation.Type animType = animation.TileAnimation.Type.MOVE;
+                        if (beforeCopy[fromRow][fromCol] < after[row][col]) {
+                            animType = animation.TileAnimation.Type.MERGE;
+                        }
+
                         TileAnimation anim = new TileAnimation(startX, startY, endX, endY, after[row][col], 150,
-                                this::repaint);
+                                this::repaint, animType);
                         animations.add(anim);
                         anim.start();
                     }
+                } else if (after[row][col] != 0 && beforeCopy[row][col] == 0) {
+                    // This is a new tile, add pop-in animation
+                    int x = (getWidth() - BOARD_SIZE) / 2 + TILE_MARGIN + col * (TILE_SIZE + TILE_MARGIN);
+                    int y = 100 + TILE_MARGIN + row * (TILE_SIZE + TILE_MARGIN);
+
+                    TileAnimation anim = new TileAnimation(x, y, x, y, after[row][col], 150,
+                            this::repaint, animation.TileAnimation.Type.NEW);
+                    animations.add(anim);
+                    anim.start();
                 }
             }
         }
@@ -253,7 +303,7 @@ public class GameBoard extends JPanel {
             board.requestFocusInWindow();
         });
         undoBtn.addActionListener(e -> {
-            board.board.undo();
+            board.board.gameLogic.undo();
             board.repaint();
             board.requestFocusInWindow();
         });
