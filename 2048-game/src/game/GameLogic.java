@@ -34,16 +34,24 @@ public class GameLogic {
 
     // save the current state to the undo stack
     public void saveState() {
-        undoStack.push(new PrevState(grid, score));
+        if (canMoveUp() || canMoveDown() || canMoveLeft() || canMoveRight()) {
+            int[][] gridCopy = new int[SIZE][SIZE];
+            for (int i = 0; i < SIZE; i++) {
+                System.arraycopy(grid[i], 0, gridCopy[i], 0, SIZE);
+            }
+            undoStack.push(new PrevState(gridCopy, score));
+        }
     }
 
     // undo the last move
     public void undo() {
-        if (!undoStack.isEmpty()) { // is moved?
-            PrevState prev = undoStack.pop(); // get the last saved state
-            // restore the grid and score from the saved state
-            this.grid = prev.grid;
-            this.score = prev.score;
+        if (!undoStack.isEmpty()) {
+            PrevState prevState = undoStack.pop();
+            grid = new int[SIZE][SIZE];
+            for (int i = 0; i < SIZE; i++) {
+                System.arraycopy(prevState.grid[i], 0, grid[i], 0, SIZE); // restore the grid from the previous state
+            }
+            score = prevState.score; // restore the score from the previous state
         } else {
             System.out.println("No moves to undo.");
         }
@@ -52,7 +60,7 @@ public class GameLogic {
     public void move(String direction) {
         saveState(); // save the current state before making a move
         int[][] before = new int[SIZE][SIZE];
-        for (int i = 0; i < SIZE; i++) {
+        for (int i = 0; i < SIZE; i++) { // create a copy of the current grid
             System.arraycopy(grid[i], 0, before[i], 0, SIZE);
         }
         boolean canMove = false;
@@ -174,37 +182,37 @@ public class GameLogic {
 
     void moveUp() {
         for (int col = 0; col < SIZE; col++) {
-            int[] compressed = compressColumn(col);
+            int[] compressed = compressColumnUp(col);
             mergeTiles(compressed);
-            setColumn(col, compressed);
+            setColumnMoveUp(col, compressed);
         }
     }
 
     void moveDown() {
         for (int col = 0; col < SIZE; col++) {
-            int[] compressed = compressColumnReverse(col);
+            int[] compressed = compressColumnDown(col);
             mergeTiles(compressed);
-            setColumnReverse(col, compressed);
+            setColumnMoveDown(col, compressed);
         }
     }
 
     void moveLeft() {
         for (int row = 0; row < SIZE; row++) {
-            int[] compressed = compressRow(row);
+            int[] compressed = compressRowLeft(row);
             mergeTiles(compressed);
-            setRow(row, compressed);
+            setRowMoveLeft(row, compressed);
         }
     }
 
     void moveRight() {
         for (int row = 0; row < SIZE; row++) {
-            int[] compressed = compressRowReverse(row);
+            int[] compressed = compressRowRight(row);
             mergeTiles(compressed);
-            setRowReverse(row, compressed);
+            setRowMoveRight(row, compressed);
         }
     }
 
-    private int[] compressRow(int row) {
+    private int[] compressRowLeft(int row) {
         int[] compressed = new int[SIZE];
         int index = 0;
         for (int col = 0; col < SIZE; col++) {
@@ -215,7 +223,7 @@ public class GameLogic {
         return compressed;
     }
 
-    private int[] compressRowReverse(int row) {
+    private int[] compressRowRight(int row) {
         int[] compressed = new int[SIZE];
         int index = SIZE - 1;
         for (int col = SIZE - 1; col >= 0; col--) {
@@ -226,7 +234,7 @@ public class GameLogic {
         return compressed;
     }
 
-    private int[] compressColumn(int col) {
+    private int[] compressColumnUp(int col) {
         int[] compressed = new int[SIZE];
         int index = 0;
         for (int row = 0; row < SIZE; row++) {
@@ -237,7 +245,7 @@ public class GameLogic {
         return compressed;
     }
 
-    private int[] compressColumnReverse(int col) {
+    private int[] compressColumnDown(int col) {
         int[] compressed = new int[SIZE];
         int index = SIZE - 1;
         for (int row = SIZE - 1; row >= 0; row--) {
@@ -248,11 +256,11 @@ public class GameLogic {
         return compressed;
     }
 
-    // ismerge?
+    // can merge tiles?
     public boolean isMerge = false;
 
     private void mergeTiles(int[] line) {
-        // Step 1: Compress (slide non-zero tiles to the front)
+        // compress (slide non-zero tiles to the front)
         int[] compressed = new int[SIZE];
         int index = 0;
         for (int value : line) {
@@ -261,7 +269,7 @@ public class GameLogic {
             }
         }
 
-        // Step 2: Merge
+        // Merge
         for (int i = 0; i < SIZE - 1; i++) {
             if (compressed[i] != 0 && compressed[i] == compressed[i + 1]) {
                 compressed[i] *= 2;
@@ -271,7 +279,7 @@ public class GameLogic {
             }
         }
 
-        // Step 3: Compress again
+        // Compress again
         int[] merged = new int[SIZE];
         index = 0;
         for (int value : compressed) {
@@ -282,30 +290,66 @@ public class GameLogic {
         System.arraycopy(merged, 0, line, 0, SIZE);
     }
 
-    private void setRow(int row, int[] line) {
-        System.arraycopy(line, 0, grid[row], 0, SIZE);
-    }
-
-    private void setRowReverse(int row, int[] line) {
+    private void setRowMoveLeft(int row, int[] line) {
         for (int col = 0; col < SIZE; col++) {
-            grid[row][col] = line[SIZE - 1 - col];
+            grid[row][col] = line[col];
         }
     }
 
-    private void setColumn(int col, int[] line) {
+    private void setRowMoveRight(int row, int[] line) {
+        // count how many non-zero tiles are there
+        int count = 0;
+        for (int col = 0; col < SIZE; col++) {
+            if (line[col] != 0) {
+                count++;
+            }
+        }
+
+        // set the zero tiles at the left
+        for (int col = 0; col < SIZE - count; col++) {
+            grid[row][col] = 0;
+        }
+
+        // set the non-zero tiles at the right
+        // We need to preserve the original order in the array
+        for (int col = SIZE - count; col < SIZE; col++) {
+            grid[row][col] = line[col - (SIZE - count)];
+        }
+    }
+
+    private void setColumnMoveUp(int col, int[] line) {
         for (int row = 0; row < SIZE; row++) {
             grid[row][col] = line[row];
         }
     }
 
-    private void setColumnReverse(int col, int[] line) {
+    private void setColumnMoveDown(int col, int[] line) {
+        // count how many non-zero tiles are there
+        int count = 0;
         for (int row = 0; row < SIZE; row++) {
-            grid[row][col] = line[SIZE - 1 - row];
+            if (line[row] != 0) {
+                count++;
+            }
+        }
+
+        // set the zero tiles at the top
+        for (int row = 0; row < SIZE - count; row++) {
+            grid[row][col] = 0;
+        }
+
+        // set the non-zero tiles at the bottom
+        // We need to preserve the original order in the array
+        for (int row = SIZE - count; row < SIZE; row++) {
+            grid[row][col] = line[row - (SIZE - count)];
         }
     }
 
     public int getScore() {
         return score;
+    }
+
+    public void setScore(int score2) {
+        this.score = score2;
     }
 
     // check if the game is over
@@ -324,9 +368,5 @@ public class GameLogic {
             }
         }
         return true;
-    }
-
-    public void setScore(int score2) {
-        this.score = score2;
     }
 }

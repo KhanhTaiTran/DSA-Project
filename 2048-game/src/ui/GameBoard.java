@@ -303,14 +303,14 @@ public class GameBoard extends JPanel {
             board.requestFocusInWindow();
         });
         undoBtn.addActionListener(e -> {
-            board.board.gameLogic.undo();
+            board.gameLogic.undo();
             board.repaint();
             board.requestFocusInWindow();
         });
         aiBtn.addActionListener(e -> {
             String aiMove = board.ai.findBestMove(board.board);
             if (aiMove != null) {
-                board.board.move(aiMove);
+                board.gameLogic.move(aiMove);
                 if (board.getScore() > board.bestScore)
                     board.bestScore = board.getScore();
                 board.repaint();
