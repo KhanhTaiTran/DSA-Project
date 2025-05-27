@@ -55,7 +55,7 @@ public class AI {
     private boolean isGameOver(Board board) {
         int[][] grid = board.getGrid();
         int size = grid.length;
-        
+
         // Check for empty cells
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
@@ -64,17 +64,17 @@ public class AI {
                 }
             }
         }
-        
+
         // Check for adjacent matching cells
         for (int row = 0; row < size; row++) {
             for (int col = 0; col < size; col++) {
-                if ((row < size - 1 && grid[row][col] == grid[row + 1][col]) || 
-                    (col < size - 1 && grid[row][col] == grid[row][col + 1])) {
+                if ((row < size - 1 && grid[row][col] == grid[row + 1][col]) ||
+                        (col < size - 1 && grid[row][col] == grid[row][col + 1])) {
                     return false;
                 }
             }
         }
-        
+
         return true;
     }
 
@@ -84,7 +84,7 @@ public class AI {
         int emptyCells = 0;
         int mergeScore = 0;
         int smoothness = 0;
-        
+
         // Count empty cells and calculate score
         for (int i = 0; i < grid.length; i++) {
             for (int j = 0; j < grid[i].length; j++) {
@@ -92,7 +92,7 @@ public class AI {
                     emptyCells++;
                 } else {
                     score += grid[i][j];
-                    
+
                     // Check for potential merges
                     if (i < grid.length - 1 && grid[i][j] == grid[i + 1][j]) {
                         mergeScore += grid[i][j];
@@ -100,7 +100,7 @@ public class AI {
                     if (j < grid[i].length - 1 && grid[i][j] == grid[i][j + 1]) {
                         mergeScore += grid[i][j];
                     }
-                    
+
                     // Calculate smoothness (penalty for non-adjacent different values)
                     if (i < grid.length - 1 && grid[i][j] != 0 && grid[i + 1][j] != 0) {
                         smoothness -= Math.abs(Math.log(grid[i][j]) - Math.log(grid[i + 1][j]));
@@ -111,12 +111,12 @@ public class AI {
                 }
             }
         }
-        
+
         // Weight the different factors
         return score + (emptyCells * 10) + (mergeScore * 8) + (smoothness * 4);
     }
 
-    private Board simulateMove(Board board, String move) {
+    private Board simulateMove(Board board, String moves) {
         Board simulatedBoard = new Board();
         int[][] originalGrid = board.getGrid();
         int[][] simulatedGrid = simulatedBoard.getGrid();
@@ -125,7 +125,7 @@ public class AI {
             System.arraycopy(originalGrid[i], 0, simulatedGrid[i], 0, originalGrid[i].length);
         }
 
-        simulatedBoard.move(move);
+        simulatedBoard.gameLogic.move(moves);
 
         if (isSameGrid(originalGrid, simulatedGrid)) {
             return null; // No change in board state, invalid move

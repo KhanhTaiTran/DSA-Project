@@ -1,8 +1,5 @@
 package game;
 
-import java.util.Random;
-import java.util.Stack;
-
 import Constants.Constants;
 
 public class Board {
@@ -37,22 +34,4 @@ public class Board {
             System.arraycopy(newGrid[i], 0, grid[i], 0, grid[i].length);
         }
     }
-
-    public void move(String move) {
-        switch (move) {
-            case "UP":
-                gameLogic.moveUp();
-                break;
-            case "DOWN":
-                gameLogic.moveDown();
-                break;
-            case "LEFT":
-                gameLogic.moveLeft();
-                break;
-            case "RIGHT":
-                gameLogic.moveRight();
-                break;
-        }
-    }
-
 }
