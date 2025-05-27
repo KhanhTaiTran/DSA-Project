@@ -1,0 +1,29 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {section}{\numberline {2}Importance of Data Structures and Algorithms (OOP)}{3}{section.2}%
+\contentsline {section}{\numberline {3}Purpose of the Project}{3}{section.3}%
+\contentsline {section}{\numberline {4}Application of DSA Principles in the Game}{4}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Data Structures}{4}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Algorithms}{4}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Properties of the 2048 Game}{4}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Goal of the Game}{4}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Rules of the Game}{4}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Methodology}{5}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Overview of Classes Used}{5}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Class Dependencies and Relationships}{5}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Main Classes and Functionality}{5}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Board Class}{5}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}Tile Class}{6}{subsubsection.6.3.2}%
+\contentsline {section}{\numberline {7}Algorithms}{6}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Move and Merge Algorithm}{6}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Random Tile Generation}{8}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Game Over Detection}{9}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Additional Behaviors and Image Handling}{10}{subsection.7.4}%
+\contentsline {subsubsection}{\numberline {7.4.1}Centralized Image Loading}{10}{subsubsection.7.4.1}%
+\contentsline {subsection}{\numberline {7.5}GamePanel Class}{10}{subsection.7.5}%
+\contentsline {subsection}{\numberline {7.6}Key Controls}{11}{subsection.7.6}%
+\contentsline {subsubsection}{\numberline {7.6.1}Handling User Input and Key Events}{11}{subsubsection.7.6.1}%
+\contentsline {subsubsection}{\numberline {7.6.2}Directional Control and Image Updates}{12}{subsubsection.7.6.2}%
+\contentsline {section}{\numberline {8}Results, Limitations, and Conclusion}{12}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Limitations}{12}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Conclusion}{12}{subsection.8.2}%
+\contentsline {section}{\numberline {9}GitHub Repository}{12}{section.9}%

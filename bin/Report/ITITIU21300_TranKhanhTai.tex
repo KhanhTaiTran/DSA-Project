@@ -1,0 +1,478 @@
+\documentclass[12pt, a4paper]{article}
+
+% Essential packages for formatting
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage{url}
+
+% Document formatting
+\geometry{margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+% Code listing style
+\lstset{
+  basicstyle=\small\ttfamily,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!60!black},
+  stringstyle=\color{red},
+  numbers=left,
+  numberstyle=\tiny,
+  numbersep=5pt,
+  backgroundcolor=\color{gray!10},
+  frame=single,
+  breaklines=true,
+  captionpos=b
+}
+
+\title{\textbf{Implementation of Data Structures and Algorithms in\\2048 Game Project}}
+\author{Tran Khanh Tai\\
+Student ID: ITITIU21300\\
+Advisor: Tran Thanh Tung\\
+International University - VNU HCMC}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This report presents a comprehensive analysis of data structures and algorithms implemented in the 2048 game project. It focuses on the design decisions, implementation details, and performance analysis of various algorithms used in the game. The report highlights how object-oriented programming principles are applied to create an efficient and maintainable codebase for the popular sliding block puzzle game.
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+The 2048 game is a popular single-player sliding tile puzzle game developed by Gabriele Cirulli in March 2014. The game involves sliding numbered tiles on a grid to combine them, with the goal of creating a tile with the number 2048. This project implements the game using Java, focusing on applying data structures and algorithms concepts to create an efficient and functional game.
+
+This report details the implementation of the 2048 game with specific emphasis on the data structures used, algorithms implemented, and their complexity analysis. It also explores how object-oriented programming principles have been applied to make the code modular, reusable, and maintainable.
+
+\section{Importance of Data Structures and Algorithms (OOP)}
+Data structures and algorithms form the foundation of efficient programming. In game development:
+
+\begin{itemize}
+    \item \textbf{Data Structures} provide organized ways to store and access data, which is critical for representing the game board and state.
+    \item \textbf{Algorithms} enable efficient manipulation of these data structures, allowing for game logic implementation.
+    \item \textbf{Object-Oriented Programming (OOP)} facilitates modularity, encapsulation, and code reuse through class hierarchies.
+\end{itemize}
+
+The 2048 game benefits from OOP principles through:
+\begin{itemize}
+    \item \textbf{Encapsulation} - hiding implementation details within classes
+    \item \textbf{Inheritance} - extending functionality through class hierarchies
+    \item \textbf{Polymorphism} - allowing for flexible behavior implementation
+    \item \textbf{Abstraction} - simplifying complex systems into manageable components
+\end{itemize}
+
+\section{Purpose of the Project}
+The main objectives of this project include:
+\begin{itemize}
+    \item Implementing a fully functional 2048 game with a graphical user interface
+    \item Demonstrating practical application of data structures and algorithms
+    \item Applying object-oriented design principles to create maintainable code
+    \item Analyzing algorithm efficiency and performance in a real-world application
+    \item Developing problem-solving skills through game logic implementation
+\end{itemize}
+
+\section{Application of DSA Principles in the Game}
+The 2048 game implementation incorporates several key DSA principles:
+
+\subsection{Data Structures}
+\begin{itemize}
+    \item \textbf{2D Arrays} - Used to represent the game board grid
+    \item \textbf{ArrayLists} - Used for managing dynamic collections of game elements
+    \item \textbf{Classes and Objects} - Used to encapsulate game components
+    \item \textbf{Queue} - Used in the animation system for sequential processing
+\end{itemize}
+
+\subsection{Algorithms}
+\begin{itemize}
+    \item \textbf{Merge Algorithm} - For combining tiles with the same value
+    \item \textbf{Random Tile Generation} - For placing new tiles on the board
+    \item \textbf{Win/Loss Detection} - For determining game state
+    \item \textbf{Tile Movement Algorithms} - For handling directional moves
+\end{itemize}
+
+\section{Properties of the 2048 Game}
+
+\subsection{Goal of the Game}
+The primary objective of the 2048 game is to slide numbered tiles on a 4×4 grid to combine them and create a tile with the number 2048. The player can continue beyond this goal to achieve higher-numbered tiles and a higher score.
+
+\subsection{Rules of the Game}
+\begin{itemize}
+    \item The game starts with two randomly placed tiles (either 2 or 4) on a 4×4 grid
+    \item The player can slide tiles in four directions: up, down, left, and right
+    \item When two tiles with the same number touch during a move, they merge into one tile with the sum of their values
+    \item After each move, a new tile (either 2 or 4) appears at a random empty position
+    \item The game ends when no valid moves are possible (board is full with no possible merges)
+    \item The player wins when a tile with the value 2048 appears on the board
+\end{itemize}
+
+\section{Methodology}
+
+\subsection{Overview of Classes Used}
+The game implementation follows an object-oriented approach with several key classes:
+
+\begin{itemize}
+    \item \textbf{Game} - The main class that controls game flow
+    \item \textbf{Board} - Represents the game board and its state
+    \item \textbf{Tile} - Represents individual tiles with their values
+    \item \textbf{GamePanel} - Handles the visual representation and user input
+    \item \textbf{Direction} - Enum representing the four possible move directions
+    \item \textbf{ScoreManager} - Tracks and updates the game score
+    \item \textbf{Animation} - Handles smooth visual transitions
+\end{itemize}
+
+\subsection{Class Dependencies and Relationships}
+\begin{itemize}
+    \item The \textbf{Game} class contains a \textbf{Board} object
+    \item The \textbf{Board} class contains a 2D array of \textbf{Tile} objects
+    \item The \textbf{GamePanel} class renders the \textbf{Board} and \textbf{Tile} objects
+    \item The \textbf{ScoreManager} is updated by the \textbf{Game} class when tiles merge
+    \item The \textbf{Animation} class works with the \textbf{GamePanel} to provide visual feedback
+\end{itemize}
+
+\subsection{Main Classes and Functionality}
+
+\subsubsection{Board Class}
+This class represents the game board as a 2D array of tiles. Sample implementation:
+
+\begin{lstlisting}[language=Java, caption=Board Class Implementation]
+public class Board {
+    private Tile[][] grid;
+    private final int SIZE = 4;
+    
+    public Board() {
+        grid = new Tile[SIZE][SIZE];
+        // Initialize empty board
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                grid[row][col] = null;
+            }
+        }
+        addRandomTile(); // Add initial tiles
+        addRandomTile();
+    }
+    
+    // More methods...
+}
+\end{lstlisting}
+
+The \textbf{Board} class has the following time complexities:
+\begin{itemize}
+    \item Initialization: O(n²) where n is the board size (4×4)
+    \item Checking for available moves: O(n²)
+    \item Board state checking: O(n²)
+\end{itemize}
+
+\subsubsection{Tile Class}
+Represents individual tiles on the board with values and positions:
+
+\begin{lstlisting}[language=Java, caption=Tile Class Implementation]
+public class Tile {
+    private int value;
+    private int row;
+    private int col;
+    private boolean merged;
+    
+    public Tile(int value, int row, int col) {
+        this.value = value;
+        this.row = row;
+        this.col = col;
+        this.merged = false;
+    }
+    
+    // Getters and setters
+}
+\end{lstlisting}
+
+\section{Algorithms}
+
+\subsection{Move and Merge Algorithm}
+The most complex algorithm in the game is the tile movement and merging logic:
+
+\begin{lstlisting}[language=Java, caption=Move and Merge Algorithm]
+public boolean move(Direction dir) {
+    boolean moved = false;
+    resetMergeStatus();
+    
+    switch (dir) {
+        case UP:
+            for (int col = 0; col < SIZE; col++) {
+                for (int row = 1; row < SIZE; row++) {
+                    if (grid[row][col] != null) {
+                        moved |= moveUp(row, col);
+                    }
+                }
+            }
+            break;
+        // Cases for DOWN, LEFT, RIGHT similarly implemented
+    }
+    
+    if (moved) {
+        addRandomTile();
+        checkGameOver();
+    }
+    
+    return moved;
+}
+
+private boolean moveUp(int row, int col) {
+    boolean moved = false;
+    Tile tile = grid[row][col];
+    int newRow = row;
+    
+    // Move up as far as possible
+    while (newRow > 0 && grid[newRow-1][col] == null) {
+        newRow--;
+    }
+    
+    // Check for merge
+    if (newRow > 0 && grid[newRow-1][col] != null && 
+        grid[newRow-1][col].getValue() == tile.getValue() && 
+        !grid[newRow-1][col].isMerged()) {
+        
+        // Merge with the tile above
+        int mergedValue = tile.getValue() * 2;
+        grid[newRow-1][col].setValue(mergedValue);
+        grid[newRow-1][col].setMerged(true);
+        grid[row][col] = null;
+        score += mergedValue;
+        moved = true;
+    } 
+    // Just move without merging
+    else if (newRow != row) {
+        grid[newRow][col] = tile;
+        grid[row][col] = null;
+        moved = true;
+    }
+    
+    return moved;
+}
+\end{lstlisting}
+
+\textbf{Time Complexity Analysis:}
+\begin{itemize}
+    \item Move operation: O(n²) where n is the board size
+    \item For each direction, we need to check each cell and potentially move it
+    \item The while loop for moving tiles runs at most O(n) times
+    \item Overall complexity is O(n³) in the worst case
+\end{itemize}
+
+\subsection{Random Tile Generation}
+After each move, a new tile needs to be added to a random empty cell:
+
+\begin{lstlisting}[language=Java, caption=Random Tile Generation]
+private void addRandomTile() {
+    List<int[]> emptyCells = new ArrayList<>();
+    
+    // Find all empty cells
+    for (int row = 0; row < SIZE; row++) {
+        for (int col = 0; col < SIZE; col++) {
+            if (grid[row][col] == null) {
+                emptyCells.add(new int[]{row, col});
+            }
+        }
+    }
+    
+    if (!emptyCells.isEmpty()) {
+        int index = (int)(Math.random() * emptyCells.size());
+        int[] position = emptyCells.get(index);
+        int value = Math.random() < 0.9 ? 2 : 4; // 90% chance for a 2, 10% for a 4
+        
+        grid[position[0]][position[1]] = new Tile(value, position[0], position[1]);
+    }
+}
+\end{lstlisting}
+
+\textbf{Time Complexity Analysis:}
+\begin{itemize}
+    \item Finding empty cells: O(n²)
+    \item Selecting a random cell: O(1)
+    \item Overall complexity is O(n²)
+\end{itemize}
+
+\subsection{Game Over Detection}
+The game ends when there are no valid moves left:
+
+\begin{lstlisting}[language=Java, caption=Game Over Detection]
+private boolean isGameOver() {
+    // Check for empty cells
+    for (int row = 0; row < SIZE; row++) {
+        for (int col = 0; col < SIZE; col++) {
+            if (grid[row][col] == null) {
+                return false; // Game continues if there's an empty cell
+            }
+        }
+    }
+    
+    // Check for possible merges horizontally
+    for (int row = 0; row < SIZE; row++) {
+        for (int col = 0; col < SIZE - 1; col++) {
+            if (grid[row][col].getValue() == grid[row][col+1].getValue()) {
+                return false; // Game continues if a horizontal merge is possible
+            }
+        }
+    }
+    
+    // Check for possible merges vertically
+    for (int col = 0; col < SIZE; col++) {
+        for (int row = 0; row < SIZE - 1; row++) {
+            if (grid[row][col].getValue() == grid[row+1][col].getValue()) {
+                return false; // Game continues if a vertical merge is possible
+            }
+        }
+    }
+    
+    return true; // Game over if no empty cells and no possible merges
+}
+\end{lstlisting}
+
+\textbf{Time Complexity Analysis:}
+\begin{itemize}
+    \item Checking for empty cells: O(n²)
+    \item Checking for horizontal merges: O(n²)
+    \item Checking for vertical merges: O(n²)
+    \item Overall complexity is O(n²)
+\end{itemize}
+
+\subsection{Additional Behaviors and Image Handling}
+
+\subsubsection{Centralized Image Loading}
+The game uses a resource manager to efficiently load and cache images:
+
+\begin{lstlisting}[language=Java, caption=Image Resource Manager]
+public class ResourceManager {
+    private static Map<String, BufferedImage> images = new HashMap<>();
+    
+    public static BufferedImage loadImage(String path) {
+        if (images.containsKey(path)) {
+            return images.get(path);
+        }
+        
+        try {
+            BufferedImage image = ImageIO.read(new File(path));
+            images.put(path, image);
+            return image;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+}
+\end{lstlisting}
+
+This implementation uses a HashMap for O(1) image lookup, preventing redundant loading of the same resources.
+
+\subsection{GamePanel Class}
+The GamePanel class handles rendering and user interaction:
+
+\begin{lstlisting}[language=Java, caption=GamePanel Rendering]
+public class GamePanel extends JPanel {
+    private Board board;
+    private Map<Integer, Color> tileColors;
+    
+    public GamePanel(Board board) {
+        this.board = board;
+        initializeColors();
+        setFocusable(true);
+        addKeyListener(new GameKeyAdapter());
+    }
+    
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
+        
+        // Draw background
+        g2d.setColor(new Color(187, 173, 160));
+        g2d.fillRect(0, 0, getWidth(), getHeight());
+        
+        // Draw tiles
+        for (int row = 0; row < 4; row++) {
+            for (int col = 0; col < 4; col++) {
+                drawTile(g2d, board.getTile(row, col), row, col);
+            }
+        }
+        
+        // Draw score and game over message if needed
+        drawUI(g2d);
+    }
+    
+    private void drawTile(Graphics2D g2d, Tile tile, int row, int col) {
+        // Tile drawing implementation
+    }
+}
+\end{lstlisting}
+
+\subsection{Key Controls}
+
+\subsubsection{Handling User Input and Key Events}
+The game responds to arrow key inputs to control tile movement:
+
+\begin{lstlisting}[language=Java, caption=Key Event Handling]
+private class GameKeyAdapter extends KeyAdapter {
+    @Override
+    public void keyPressed(KeyEvent e) {
+        boolean moved = false;
+        
+        switch (e.getKeyCode()) {
+            case KeyEvent.VK_UP:
+                moved = board.move(Direction.UP);
+                break;
+            case KeyEvent.VK_DOWN:
+                moved = board.move(Direction.DOWN);
+                break;
+            case KeyEvent.VK_LEFT:
+                moved = board.move(Direction.LEFT);
+                break;
+            case KeyEvent.VK_RIGHT:
+                moved = board.move(Direction.RIGHT);
+                break;
+        }
+        
+        if (moved) {
+            repaint();
+        }
+    }
+}
+\end{lstlisting}
+
+\subsubsection{Directional Control and Image Updates}
+Each key press triggers a move in the corresponding direction, which may update the game state and cause the UI to refresh if tiles were moved or merged.
+
+\section{Results, Limitations, and Conclusion}
+
+The implementation of the 2048 game demonstrates practical application of data structures and algorithms in a real-world scenario. The key results include:
+
+\begin{itemize}
+    \item A functional game with intuitive controls and visual feedback
+    \item Efficient algorithms for tile movement, merging, and game state management
+    \item Object-oriented design providing modularity and code reuse
+\end{itemize}
+
+\subsection{Limitations}
+\begin{itemize}
+    \item The current implementation has O(n³) complexity for moves in the worst case
+    \item No undo functionality or game state saving
+    \item Limited animation capabilities
+\end{itemize}
+
+\subsection{Conclusion}
+This project successfully demonstrates the application of data structures and algorithms concepts in game development. The implementation of the 2048 game shows how careful algorithm design and appropriate data structure selection contribute to creating an efficient and enjoyable game experience.
+
+Future improvements could include optimizing the move algorithm for better performance, adding game state saving functionality, and implementing more sophisticated animations.
+
+\section{GitHub Repository}
+The source code for this project is available at: \url{https://github.com/KhanhTaiTran/DSA-Project.git}
+
+\end{document}
