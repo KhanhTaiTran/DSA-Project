@@ -19,15 +19,6 @@ public class Board {
         return copy;
     }
 
-    public void printBoard() {
-        for (int i = 0; i < SIZE; i++) {
-            for (int j = 0; j < SIZE; j++) {
-                System.out.print(grid[i][j] + "\t");
-            }
-            System.out.println();
-        }
-    }
-
     // Add these methods to allow synchronizing with gameLogic
     public void setGrid(int[][] newGrid) {
         for (int i = 0; i < grid.length; i++) {
