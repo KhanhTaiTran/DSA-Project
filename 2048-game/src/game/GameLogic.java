@@ -4,16 +4,19 @@ package game;
 import java.util.Random;
 import java.util.Stack;
 
+import service.ScoreManager;
+
 public class GameLogic {
     private int[][] grid;
     private static final int SIZE = 4; // size of the grid
     private Stack<PrevState> undoStack; // stack to keep track of game states for undo functionality
     private int score = 0;
+    private ScoreManager scoreManager;
 
     public int[][] getGrid() {
         int[][] copy = new int[SIZE][SIZE];
         for (int i = 0; i < SIZE; i++) {
-            System.arraycopy(grid[i], 0, copy[i], 0, SIZE); // create a copy of the grid
+            System.arraycopy(grid[i], 0, copy[i], 0, SIZE);
         }
         return copy;
     }
@@ -21,6 +24,12 @@ public class GameLogic {
     public void initialize() {
         grid = new int[SIZE][SIZE];
         score = 0;
+        if (scoreManager == null) {
+            scoreManager = new ScoreManager(); // Initialize the score manager if not already done
+        }
+
+        scoreManager.getBestScore();
+        // Add two random tiles to start the game
         addRandomTile();
         addRandomTile();
         undoStack.clear();
@@ -30,6 +39,8 @@ public class GameLogic {
         grid = new int[SIZE][SIZE];
         undoStack = new Stack<>();
         score = 0;
+        scoreManager = new ScoreManager(); // Initialize the score manager
+        scoreManager.getBestScore();
     }
 
     // save the current state to the undo stack
@@ -368,5 +379,51 @@ public class GameLogic {
             }
         }
         return true;
+    }
+
+    // check win
+    public boolean isWin() {
+        for (int row = 0; row < SIZE; row++) {
+            for (int col = 0; col < SIZE; col++) {
+                if (grid[row][col] == 2048) {
+                    return true; // Win condition met
+                }
+            }
+        }
+        return false; // No win condition met
+    }
+
+    private void saveScore() {
+        if (scoreManager != null) {
+            int currentScore = getCurrentScore(); // Get current score from your game
+            boolean isNewBest = scoreManager.updateScore(currentScore);
+
+            // Optionally, notify UI about new best score
+            if (isNewBest) {
+                System.out.println("New best score: " + currentScore);
+            } else {
+                System.out.println("Current score: " + currentScore);
+            }
+        }
+    }
+
+    private int getCurrentScore() {
+        return score; // Return the current score
+    }
+
+    public boolean checkGameStatus() {
+        if (isWin()) {
+            saveScore();
+            return true;
+        }
+
+        // Check for game over condition
+        if (isGameOver()) {
+            saveScore();
+            return true;
+        }
+
+        // Game continues
+        return false;
     }
 }

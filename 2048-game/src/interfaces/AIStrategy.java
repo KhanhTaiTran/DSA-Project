@@ -1,13 +1,10 @@
 package interfaces;
 
-import model.GameState;
-import enums.Direction;
+import game.Board;
 
 public interface AIStrategy {
 
-    Direction getBestMove(GameState gameState);
+    String findBestMove(Board board);
 
-    double evaluateState(GameState gameState);
-
-    void setSearchDepth(int depth);
+    int evaluateBoard(Board board);
 }

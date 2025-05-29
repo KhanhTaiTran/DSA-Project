@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.util.Random;
 
 import Constants.Constants;
+import service.ScoreManager;
 
 public class WelcomePanel2048 extends JFrame {
 
@@ -57,7 +58,7 @@ public class WelcomePanel2048 extends JFrame {
     public static final int WIDTH = Constants.WIDTH;
     public static final int HEIGHT = Constants.HEIGHT;
 
-    public WelcomePanel2048() {
+    public WelcomePanel2048(ScoreManager scoreManager) {
         setTitle("2048 Game - Welcome");
         setSize(WIDTH, HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

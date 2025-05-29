@@ -5,6 +5,7 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import game.Board;
+import service.ScoreManager;
 import game.AI;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -19,9 +20,13 @@ public class GameBoard extends JPanel {
     private static final int TILE_MARGIN = Constants.TILE_MARGIN;
     private static final int BOARD_SIZE = TILE_SIZE * GRID_SIZE + TILE_MARGIN * (GRID_SIZE + 1);
     public game.GameLogic gameLogic; // Changed to public for access from GameBoard2048
-    private int bestScore = 0;
+
+    private ScoreManager scoreManager = new ScoreManager();
+    private int bestScore = scoreManager.getBestScore();
+
     Board board;
     private AI ai;
+    GameBoard gameBoard = this;
 
     public GameBoard() {
         setPreferredSize(new Dimension(BOARD_SIZE, BOARD_SIZE + 160));
@@ -153,11 +158,31 @@ public class GameBoard extends JPanel {
                 }
             }
         }
-        if (getScore() > bestScore)
+        if (getScore() > bestScore) {
             bestScore = getScore();
+        }
         repaint();
         if (gameLogic.isGameOver()) {
-            JOptionPane.showMessageDialog(GameBoard.this, "Game Over!", "2048", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(GameBoard.this, "Game Over! Click OK to play new game.", "2048",
+                    JOptionPane.INFORMATION_MESSAGE);
+            // Reset the game
+            gameBoard.restart();
+
+            // save the best score
+
+            ScoreManager scoreManager = new ScoreManager();
+            scoreManager.updateScore(bestScore);
+        }
+        if (gameLogic.isWin()) {
+            JOptionPane.showMessageDialog(GameBoard.this, "You Win! Click OK to play new game.", "2048",
+                    JOptionPane.INFORMATION_MESSAGE);
+            // Reset the game
+            gameBoard.restart();
+
+            // save the best score
+
+            ScoreManager scoreManager = new ScoreManager();
+            scoreManager.updateScore(bestScore);
         }
     }
 
@@ -283,48 +308,5 @@ public class GameBoard extends JPanel {
         } else {
             return Color.WHITE;
         }
-    }
-
-    // For testing/demo
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("2048 Game Board");
-        GameBoard board = new GameBoard();
-
-        JPanel buttonPanel = new JPanel();
-        JButton restartBtn = new JButton("Restart");
-        JButton undoBtn = new JButton("Undo (U)");
-        JButton aiBtn = new JButton("AI Move (A)");
-        buttonPanel.add(restartBtn);
-        buttonPanel.add(undoBtn);
-        buttonPanel.add(aiBtn);
-
-        restartBtn.addActionListener(e -> {
-            board.restart();
-            board.requestFocusInWindow();
-        });
-        undoBtn.addActionListener(e -> {
-            board.gameLogic.undo();
-            board.repaint();
-            board.requestFocusInWindow();
-        });
-        aiBtn.addActionListener(e -> {
-            String aiMove = board.ai.findBestMove(board.board);
-            if (aiMove != null) {
-                board.gameLogic.move(aiMove);
-                if (board.getScore() > board.bestScore)
-                    board.bestScore = board.getScore();
-                board.repaint();
-            }
-            board.requestFocusInWindow();
-        });
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        frame.add(board, BorderLayout.CENTER);
-        frame.add(buttonPanel, BorderLayout.SOUTH);
-        frame.pack();
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        board.requestFocusInWindow();
     }
 }

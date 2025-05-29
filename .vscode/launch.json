@@ -3,6 +3,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "GameBoard",
+      "request": "launch",
+      "mainClass": "ui.GameBoard",
+      "projectName": "DSA-Project_683f4f60"
+    },
+    {
+      "type": "java",
       "name": "Main",
       "request": "launch",
       "mainClass": "app.Main",

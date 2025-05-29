@@ -12,9 +12,17 @@
 \usepackage{booktabs}
 \usepackage{float}
 \usepackage{url}
+\usepackage{pdfpages}
+\usepackage{tikz}
+\usetikzlibrary{calc}  % Load the calc library for coordinate calculations
+\usepackage{multirow} % Add this package for vertical lines in tables
+
+% For the decorative frame
+\usepackage{fancybox}
+\usepackage{fancyhdr} % Add this package for header and footer
 
 % Document formatting
-\geometry{margin=1in}
+\geometry{margin=1in, headheight=15pt} % Adjust headheight to avoid warnings
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt}
 
@@ -33,21 +41,66 @@
   captionpos=b
 }
 
-\title{\textbf{Implementation of Data Structures and Algorithms in\\2048 Game Project}}
-\author{Tran Khanh Tai\\
-Student ID: ITITIU21300\\
-Advisor: Tran Thanh Tung\\
-International University - VNU HCMC}
-\date{\today}
+% Define red color for title
+\definecolor{titlered}{RGB}{230,0,0}
+\definecolor{goldaccent}{RGB}{218,165,32}
+\definecolor{navyblue}{RGB}{0,0,128}
+\definecolor{pagebg}{RGB}{240,248,255}
+
+% Title formatting
+\newcommand{\titlepagetext}{
+  \vspace*{1cm}
+  \begin{center}
+    {\Large\bfseries\textcolor{navyblue}{INTERNATIONAL UNIVERSITY}}\\[0.3cm]
+    {\Large\bfseries\textcolor{navyblue}{\underline{VIETNAM NATIONAL UNIVERSITY, HCM CITY}}}\\[1cm]
+    {\large\textcolor{navyblue}{School of Computer Science \& Engineering}}\\[2cm]
+    
+    {\LARGE\bfseries\textcolor{titlered}{2048 GAME PROJECT}}\\[2cm]
+    
+    {\large\textcolor{navyblue}{Advisor: Tran Thanh Tung}}\\[0.5cm]
+    {\large\textcolor{navyblue}{Course: Algorithms and Data Structures}}\\[2cm]
+    
+    % Replace tabular with centered text
+    \large\textbf{\textcolor{navyblue}{Student:}}\\[1cm]
+    \large\textcolor{navyblue}{Tran Khanh Tai}\\
+    \large\textcolor{navyblue}{ITITIU21300}\\[1cm]
+  \end{center}
+}
+
+% Define header and footer
+\pagestyle{fancy}
+\fancyhf{} % Clear all header and footer fields
+\fancyhead[L]{\textbf{\textcolor{navyblue}{INTERNATIONAL UNIVERSITY}}}
+\fancyhead[R]{\textcolor{navyblue}{ALGORITHMS AND DATA STRUCTURES}}
+\fancyfoot[C]{\textcolor{titlered}{2048 GAME PROJECT}}
+\fancyfoot[R]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% For pages with chapter/section beginnings
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyhead[L]{\textbf{\textcolor{navyblue}{INTERNATIONAL UNIVERSITY}}}
+  \fancyhead[R]{\textcolor{navyblue}{ALGORITHMS AND DATA STRUCTURES}}
+  \fancyfoot[C]{\textcolor{titlered}{2048 GAME PROJECT}}
+  \fancyfoot[R]{\thepage}
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0.4pt}
+}
 
 \begin{document}
 
-\maketitle
+% Custom title page
+\begin{titlepage}
+\thispagestyle{empty} % Ensures no header/footer on title page
 
-\begin{abstract}
-This report presents a comprehensive analysis of data structures and algorithms implemented in the 2048 game project. It focuses on the design decisions, implementation details, and performance analysis of various algorithms used in the game. The report highlights how object-oriented programming principles are applied to create an efficient and maintainable codebase for the popular sliding block puzzle game.
-\end{abstract}
+\vspace{2cm}
 
+\titlepagetext
+
+\end{titlepage}
+
+% Table of contents
 \tableofcontents
 \newpage
 
@@ -322,128 +375,122 @@ private boolean isGameOver() {
                 return false; // Game continues if a horizontal merge is possible
             }
         }
-    }
+    }    }
     
-    // Check for possible merges vertically
-    for (int col = 0; col < SIZE; col++) {
+    // Check for possible merges vertically    // Check for possible merges vertically
+    for (int col = 0; col < SIZE; col++) {{
         for (int row = 0; row < SIZE - 1; row++) {
-            if (grid[row][col].getValue() == grid[row+1][col].getValue()) {
-                return false; // Game continues if a vertical merge is possible
+            if (grid[row][col].getValue() == grid[row+1][col].getValue()) {            if (grid[row][col].getValue() == grid[row+1][col].getValue()) {
+                return false; // Game continues if a vertical merge is possiblege is possible
             }
         }
-    }
+    }}
     
-    return true; // Game over if no empty cells and no possible merges
+    return true; // No moves left, game overty cells and no possible merges
 }
 \end{lstlisting}
 
 \textbf{Time Complexity Analysis:}
 \begin{itemize}
-    \item Checking for empty cells: O(n²)
-    \item Checking for horizontal merges: O(n²)
-    \item Checking for vertical merges: O(n²)
-    \item Overall complexity is O(n²)
-\end{itemize}
+    \item Checking for empty cells: O(n²)O(n²)
+    \item Checking for possible merges: O(n²)rizontal merges: O(n²)
+    \item Overall complexity is O(n²)erges: O(n²)
+\end{itemize}O(n²)
 
 \subsection{Additional Behaviors and Image Handling}
-
+ection{Additional Behaviors and Image Handling}
 \subsubsection{Centralized Image Loading}
 The game uses a resource manager to efficiently load and cache images:
-
 \begin{lstlisting}[language=Java, caption=Image Resource Manager]
-public class ResourceManager {
-    private static Map<String, BufferedImage> images = new HashMap<>();
-    
-    public static BufferedImage loadImage(String path) {
+public class ResourceManager
+    private static Map<String, BufferedImage> images = new HashMap<>(); {
+    HashMap<>();
+    public static BufferedImage loadImage(String path) {    
         if (images.containsKey(path)) {
             return images.get(path);
-        }
+        }s.get(path);
         
-        try {
+        try {    
             BufferedImage image = ImageIO.read(new File(path));
-            images.put(path, image);
+            images.put(path, image);mage = ImageIO.read(new File(path));
             return image;
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
-        }
+            return null;       e.printStackTrace();
+        }        return null;
     }
 }
 \end{lstlisting}
 
 This implementation uses a HashMap for O(1) image lookup, preventing redundant loading of the same resources.
-
+ HashMap for O(1) image lookup, preventing redundant loading of the same resources.
 \subsection{GamePanel Class}
 The GamePanel class handles rendering and user interaction:
-
+Panel class handles rendering and user interaction:
 \begin{lstlisting}[language=Java, caption=GamePanel Rendering]
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel
     private Board board;
     private Map<Integer, Color> tileColors;
-    
+    ap<Integer, Color> tileColors;
     public GamePanel(Board board) {
         this.board = board;
         initializeColors();
-        setFocusable(true);
-        addKeyListener(new GameKeyAdapter());
-    }
+        setFocusable(true);lors();
+        addKeyListener(new GameKeyAdapter());   setFocusable(true);
+    }    addKeyListener(new GameKeyAdapter());
     
     @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2d = (Graphics2D) g;
-        
+    protected void paintComponent(Graphics g) 
+        super.paintComponent(g);   protected void paintComponent(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g;intComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
         // Draw background
         g2d.setColor(new Color(187, 173, 160));
-        g2d.fillRect(0, 0, getWidth(), getHeight());
-        
+        g2d.fillRect(0, 0, getWidth(), getHeight());etColor(new Color(187, 173, 160));
+        etHeight();
         // Draw tiles
-        for (int row = 0; row < 4; row++) {
+        for (int row = 0; row < 4; row++) {// Draw tiles
             for (int col = 0; col < 4; col++) {
-                drawTile(g2d, board.getTile(row, col), row, col);
-            }
+                drawTile(g2d, board.getTile(row, col), row, col) {
+            };
         }
         
         // Draw score and game over message if needed
-        drawUI(g2d);
+        drawUI(g2d);and game over message if needed
     }
     
     private void drawTile(Graphics2D g2d, Tile tile, int row, int col) {
-        // Tile drawing implementation
+        // Tile drawing implementation {
     }
 }
 \end{lstlisting}
 
-\subsection{Key Controls}
-
-\subsubsection{Handling User Input and Key Events}
-The game responds to arrow key inputs to control tile movement:
-
 \begin{lstlisting}[language=Java, caption=Key Event Handling]
 private class GameKeyAdapter extends KeyAdapter {
     @Override
-    public void keyPressed(KeyEvent e) {
-        boolean moved = false;
-        
-        switch (e.getKeyCode()) {
+    public void keyPressed(KeyEvent e) {Override
+        boolean moved = false;   public void keyPressed(KeyEvent e) {
+        moved = false;
+        switch (e.getKeyCode()) {        
             case KeyEvent.VK_UP:
                 moved = board.move(Direction.UP);
-                break;
+                break;                moved = board.move(Direction.UP);
             case KeyEvent.VK_DOWN:
-                moved = board.move(Direction.DOWN);
+                moved = board.move(Direction.DOWN);            case KeyEvent.VK_DOWN:
                 break;
-            case KeyEvent.VK_LEFT:
-                moved = board.move(Direction.LEFT);
+            case KeyEvent.VK_LEFT:                break;
+                moved = board.move(Direction.LEFT);e KeyEvent.VK_LEFT:
                 break;
             case KeyEvent.VK_RIGHT:
                 moved = board.move(Direction.RIGHT);
-                break;
-        }
+                break;   moved = board.move(Direction.RIGHT);
+        }                break;
         
         if (moved) {
             repaint();
         }
     }
+}
 }
 \end{lstlisting}
 
@@ -451,9 +498,7 @@ private class GameKeyAdapter extends KeyAdapter {
 Each key press triggers a move in the corresponding direction, which may update the game state and cause the UI to refresh if tiles were moved or merged.
 
 \section{Results, Limitations, and Conclusion}
-
 The implementation of the 2048 game demonstrates practical application of data structures and algorithms in a real-world scenario. The key results include:
-
 \begin{itemize}
     \item A functional game with intuitive controls and visual feedback
     \item Efficient algorithms for tile movement, merging, and game state management
@@ -467,12 +512,34 @@ The implementation of the 2048 game demonstrates practical application of data s
     \item Limited animation capabilities
 \end{itemize}
 
+Future improvements could include optimizing the move algorithm for better performance, adding game state saving functionality, and implementing more sophisticated animations.
+
 \subsection{Conclusion}
 This project successfully demonstrates the application of data structures and algorithms concepts in game development. The implementation of the 2048 game shows how careful algorithm design and appropriate data structure selection contribute to creating an efficient and enjoyable game experience.
 
+\section{GitHub Repository}
+The source code for this project is available at: \url{https://github.com/yourusername/2048-game}
+
+\end{document}
+\section{GitHub Repository}
+    \item This project successfully demonstrates the application of data structures and algorithms concepts in game development. The implementation of the 2048 game shows how careful algorithm design and appropriate data structure selection contribute to creating an efficient and enjoyable game experience.\subsection{Conclusion}Future improvements could include optimizing the move algorithm for better performance, adding game state saving functionality, and implementing more sophisticated animations.\end{itemize}    \item Limited animation capabilities    \item No undo functionality or game state saving    \item The current implementation has O(n³) complexity for moves in the worst case\begin{itemize}\subsection{Limitations}\end{itemize}    \item Object-oriented design providing modularity and code reuse    \item Efficient algorithms for tile movement, merging, and game state management    \item A functional game with intuitive controls and visual feedback
+    \item Efficient algorithms for tile movement, merging, and game state management
+    \item Object-oriented design providing modularity and code reuse
+\end{itemize}
+
+\subsection{Limitations}
+\begin{itemize}
+    \item The current implementation has O(n³) complexity for moves in the worst case
+    \item No undo functionality or game state saving
+    \item Limited animation capabilities
+\end{itemize}
+
 Future improvements could include optimizing the move algorithm for better performance, adding game state saving functionality, and implementing more sophisticated animations.
 
+\subsection{Conclusion}
+This project successfully demonstrates the application of data structures and algorithms concepts in game development. The implementation of the 2048 game shows how careful algorithm design and appropriate data structure selection contribute to creating an efficient and enjoyable game experience.
+
 \section{GitHub Repository}
-The source code for this project is available at: \url{https://github.com/KhanhTaiTran/DSA-Project.git}
+The source code for this project is available at: \url{https://github.com/yourusername/2048-game}
 
 \end{document}
