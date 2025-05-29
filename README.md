@@ -1,68 +1,103 @@
-# 2048 Game (Java)
+# 2048 Game
 
-A modern, object-oriented implementation of the classic 2048 puzzle game in Java. This project demonstrates clean architecture and SOLID principles, featuring a responsive Swing UI, undo functionality, and an optional AI player.
+![Java](https://img.shields.io/badge/Language-Java-orange)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
-## Features
+A polished, object-oriented implementation of the popular 2048 puzzle game built in Java. This project showcases clean architecture, SOLID principles, and modern software design patterns.
 
-- Classic 2048 gameplay on a 4x4 grid
-- Undo last move functionality
-- Animated tile movement for a smooth experience
-- AI player for auto-move suggestions
-- Clean, modular, and testable codebase
+<p align="center">
+  <!-- Consider adding a screenshot or GIF of your game here -->
+  <em>2048 - Slide, combine, and reach 2048!</em>
+</p>
 
-## Project Structure
+## 🎮 About The Game
+
+2048 is a single-player sliding block puzzle game where the goal is to combine numbered tiles to create a tile with the value 2048. The game is played on a 4×4 grid using the arrow keys to slide tiles in four directions. When two tiles with the same number touch, they merge into one tile with the sum of their values.
+
+## ✨ Features
+
+- **Core Gameplay**: Classic 2048 mechanics on a 4x4 grid
+- **Undo System**: Revert your last move when you make a mistake
+- **Smooth Animations**: Visually appealing tile movements and merges
+- **AI Assistant**: Get move suggestions from the built-in AI
+- **Clean Architecture**: Modular codebase following SOLID principles
+
+## 🏗️ Architecture
+
+The project is organized using a clean, layered architecture:
 
 ```
 2048-game/
 ├── src/
-│   ├── animation/         # Tile animation classes
-│   ├── Constants/         # Game constants (e.g., grid size)
-│   ├── enums/             # Enums (e.g., Direction)
-│   ├── game/              # Legacy logic (to be refactored)
-│   ├── interfaces/        # Core interfaces (GameEngine, BoardService, etc.)
-│   ├── model/             # Data models (Grid, Tile, GameState)
-│   ├── service/           # Service implementations (BoardServiceImpl, etc.)
-│   └── ui/                # Swing UI (GameBoard, WelcomePanel2048)
-├── lib/                   # External libraries (if any)
-└── README.md              # Project documentation
+│   ├── animation/         # Animation system for smooth tile movement
+│   ├── Constants/         # Game configuration and constants
+│   ├── enums/             # Type-safe enumerations (Direction, etc.)
+│   ├── game/              # Legacy game logic (targeted for refactoring)
+│   ├── interfaces/        # Core interfaces defining the system behavior
+│   ├── service/           # Business logic implementations
+│   └── ui/                # Swing UI components and rendering logic
+└── lib/                   # External dependencies
 ```
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
 - Java Development Kit (JDK) 8 or higher
+- Git (optional, for cloning the repository)
 
-### Build & Run
+### Installation
 
-1. **Compile the project:**
-   - Open a terminal in the project root directory.
-   - Run:
-     ```
-     javac -d bin src/**/*.java
-     ```
-2. **Run the game:**
-   - Run:
-     ```
-     java -cp bin ui.GameBoard
-     ```
+1. **Clone the repository** (or download as ZIP):
 
-## Controls
+   ```bash
+   git clone https://github.com/KhanhTaiTran/DSA-Project.git
+   cd 2048-game
+   ```
 
-- **Arrow Keys:** Move tiles
-- **U:** Undo last move
-- **Restart:** Click the Restart button
-- **AI Move:** Click the AI button for a suggested move
+2. **Compile the project**:
 
-## Customization
+   ```bash
+   javac -d bin src/**/*.java
+   ```
 
-- Change grid size in `Constants/Constants.java`
-- Tweak scoring or AI by editing service implementations
+3. **Run the game**:
+   ```bash
+   java -cp bin ui.GameBoard
+   ```
 
-## Contributing
+## 🎯 How to Play
 
-Contributions are welcome! Please open issues or submit pull requests for improvements.
+- **Arrow Keys Or A,S,D,W**: Move tiles in the respective direction
+- **U Key**: Undo your last move
+- **Restart Button**: Start a new game
+- **AI Button**: Get a suggested move from the AI
+
+## 🔧 Customization
+
+The game can be customized in several ways:
+
+- Modify grid dimensions in `Constants/Constants.java`
+- Adjust scoring algorithm in service implementations
+- Tweak AI behavior for different strategies
+- Change tile colors and UI appearance in the UI package
+
+## 🤝 Contributing
+
+Contributions are welcome! To contribute:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add an amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📜 License
+
+This project is available for educational purposes. Feel free to use, modify, and learn from it.
 
 ---
 
-_For educational use. Contributions welcome!_
+<p align="center">
+  Made with ❤️ as a Data Structures & Algorithms project
+</p>
