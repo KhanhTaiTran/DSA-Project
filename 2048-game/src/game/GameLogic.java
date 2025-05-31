@@ -43,6 +43,15 @@ public class GameLogic {
         scoreManager.getBestScore();
     }
 
+    public GameLogic(Board simulatedBoard) {
+        // TODO Auto-generated constructor stub
+        grid = new int[SIZE][SIZE];
+        undoStack = new Stack<>();
+        score = 0;
+        scoreManager = new ScoreManager(); // Initialize the score manager
+        scoreManager.getBestScore();
+    }
+
     // save the current state to the undo stack
     public void saveState() {
         if (canMoveUp() || canMoveDown() || canMoveLeft() || canMoveRight()) {
@@ -103,6 +112,46 @@ public class GameLogic {
             addRandomTile(); // add a random tile if a move was made
         } else {
             System.out.println("No tiles can be moved in this direction.");
+        }
+    }
+
+    public boolean canMove(String direction) {
+        saveState(); // save the current state before making a move
+        int[][] before = new int[SIZE][SIZE];
+        for (int i = 0; i < SIZE; i++) { // create a copy of the current grid
+            System.arraycopy(grid[i], 0, before[i], 0, SIZE);
+        }
+        boolean canMove = false;
+        switch (direction.toLowerCase()) {
+            case "up":
+                canMove = canMoveUp();
+                if (canMove)
+                    moveUp();
+                break;
+            case "down":
+                canMove = canMoveDown();
+                if (canMove)
+                    moveDown();
+                break;
+            case "left":
+                canMove = canMoveLeft();
+                if (canMove)
+                    moveLeft();
+                break;
+            case "right":
+                canMove = canMoveRight();
+                if (canMove)
+                    moveRight();
+                break;
+            default:
+                System.out.println("Invalid direction. Use up, down, left, or right.");
+        }
+        if (canMove && !isSameGrid(before, grid)) { // check if the grid has changed
+            addRandomTile(); // add a random tile if a move was made
+            return true;
+        } else {
+            System.out.println("No tiles can be moved in this direction.");
+            return false;
         }
     }
 

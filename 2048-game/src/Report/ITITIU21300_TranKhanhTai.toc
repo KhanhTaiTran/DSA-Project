@@ -1,27 +1,34 @@
-\contentsline {section}{\numberline {1}Introduction}{2}{section.1}%
-\contentsline {section}{\numberline {2}Importance of Data Structures and Algorithms (OOP)}{2}{section.2}%
-\contentsline {section}{\numberline {3}Purpose of the Project}{2}{section.3}%
-\contentsline {section}{\numberline {4}Application of DSA Principles in the Game}{3}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Data Structures}{3}{subsection.4.1}%
-\contentsline {subsection}{\numberline {4.2}Algorithms}{3}{subsection.4.2}%
-\contentsline {section}{\numberline {5}Properties of the 2048 Game}{3}{section.5}%
-\contentsline {subsection}{\numberline {5.1}Goal of the Game}{3}{subsection.5.1}%
-\contentsline {subsection}{\numberline {5.2}Rules of the Game}{3}{subsection.5.2}%
-\contentsline {section}{\numberline {6}Methodology}{4}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Overview of Classes Used}{4}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Class Dependencies and Relationships}{4}{subsection.6.2}%
-\contentsline {subsection}{\numberline {6.3}Main Classes and Functionality}{4}{subsection.6.3}%
-\contentsline {subsubsection}{\numberline {6.3.1}Board Class}{4}{subsubsection.6.3.1}%
-\contentsline {subsubsection}{\numberline {6.3.2}Tile Class}{5}{subsubsection.6.3.2}%
-\contentsline {section}{\numberline {7}Algorithms}{5}{section.7}%
-\contentsline {subsection}{\numberline {7.1}Move and Merge Algorithm}{5}{subsection.7.1}%
-\contentsline {subsection}{\numberline {7.2}Random Tile Generation}{7}{subsection.7.2}%
-\contentsline {subsection}{\numberline {7.3}Game Over Detection}{8}{subsection.7.3}%
-\contentsline {subsection}{\numberline {7.4}Additional Behaviors and Image Handling}{9}{subsection.7.4}%
-\contentsline {subsubsection}{\numberline {7.4.1}Centralized Image Loading}{9}{subsubsection.7.4.1}%
-\contentsline {subsection}{\numberline {7.5}GamePanel Class}{9}{subsection.7.5}%
-\contentsline {subsubsection}{\numberline {7.5.1}Directional Control and Image Updates}{11}{subsubsection.7.5.1}%
-\contentsline {section}{\numberline {8}Results, Limitations, and Conclusion}{11}{section.8}%
-\contentsline {subsection}{\numberline {8.1}Limitations}{11}{subsection.8.1}%
-\contentsline {subsection}{\numberline {8.2}Conclusion}{12}{subsection.8.2}%
-\contentsline {section}{\numberline {9}GitHub Repository}{12}{section.9}%
+\contentsline {section}{\numberline {1}Introduction}{5}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Game Overview and History}{5}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Project Scope}{5}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Importance of Data Structures and Algorithms}{5}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Data Structure Selection Rationale}{6}{subsection.2.1}%
+\contentsline {section}{\numberline {3}Purpose of the Project}{6}{section.3}%
+\contentsline {section}{\numberline {4}Application of DSA Principles in the Game}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Data Structures}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Algorithms}{7}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Properties of the 2048 Game}{7}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Goal of the Game}{7}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Rules of the Game}{7}{subsection.5.2}%
+\contentsline {section}{\numberline {6}Methodology}{8}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Overview of Classes Used}{8}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Class Dependencies and Relationships}{8}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Main Classes and Functionality}{9}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}Board Class}{9}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}GameLogic Class}{9}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}PrevState Class}{14}{subsubsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.4}ScoreManager Class}{15}{subsubsection.6.3.4}%
+\contentsline {section}{\numberline {7}Algorithms}{18}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Move and Merge Algorithm}{18}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Algorithm Efficiency Analysis}{21}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}Random Tile Generation}{22}{subsection.7.3}%
+\contentsline {subsection}{\numberline {7.4}Game Over and Win Detection}{23}{subsection.7.4}%
+\contentsline {section}{\numberline {8}Implementation Challenges and Solutions}{25}{section.8}%
+\contentsline {subsection}{\numberline {8.1}Directional Movement Consistency}{25}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}Animation System}{25}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}Merge Logic Edge Cases}{25}{subsection.8.3}%
+\contentsline {section}{\numberline {9}Results, Limitations, and Conclusion}{25}{section.9}%
+\contentsline {subsection}{\numberline {9.1}Limitations}{26}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}Future Work}{26}{subsection.9.2}%
+\contentsline {subsection}{\numberline {9.3}Conclusion}{26}{subsection.9.3}%
+\contentsline {section}{\numberline {10}GitHub Repository}{26}{section.10}%

@@ -18,11 +18,4 @@ public class Board {
         }
         return copy;
     }
-
-    // Add these methods to allow synchronizing with gameLogic
-    public void setGrid(int[][] newGrid) {
-        for (int i = 0; i < grid.length; i++) {
-            System.arraycopy(newGrid[i], 0, grid[i], 0, grid[i].length);
-        }
-    }
 }
