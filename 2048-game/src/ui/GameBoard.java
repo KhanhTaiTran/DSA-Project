@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 
 import animation.TileAnimation;
 import Constants.Constants;
+import game.GameLogic;
 
 public class GameBoard extends JPanel {
     private List<TileAnimation> animations = new ArrayList<>();
@@ -19,13 +20,14 @@ public class GameBoard extends JPanel {
     private static final int TILE_SIZE = Constants.TILE_SIZE;
     private static final int TILE_MARGIN = Constants.TILE_MARGIN;
     private static final int BOARD_SIZE = TILE_SIZE * GRID_SIZE + TILE_MARGIN * (GRID_SIZE + 1);
-    public game.GameLogic gameLogic; // Changed to public for access from GameBoard2048
+    public GameLogic gameLogic;
 
     private ScoreManager scoreManager = new ScoreManager();
     private int bestScore = scoreManager.getBestScore();
 
-    Board board;
-    private AI ai;
+    // Make sure board is properly initialized and accessible
+    public game.Board board;
+    private AI ai = new AI();
     GameBoard gameBoard = this;
 
     public GameBoard() {
@@ -37,7 +39,10 @@ public class GameBoard extends JPanel {
 
         // Initialize AI
         ai = new AI();
-        board = new Board();
+        // Make sure board is initialized
+        if (board == null) {
+            board = new game.Board();
+        }
 
         setFocusable(true);
         requestFocusInWindow();
@@ -85,24 +90,25 @@ public class GameBoard extends JPanel {
         });
     }
 
-    // Make performAIMove public so it can be called from Game2048
-    public void performAIMove() {
-        if (gameLogic.isGameOver()) {
-            return;
+    public boolean performAIMove() {
+        if (board == null) {
+            board = new game.Board();
         }
 
-        // Synchronize the board with the current gameLogic state
-        int[][] currentGrid = gameLogic.getGrid();
-        board.setGrid(currentGrid);
-        board.gameLogic.setScore(gameLogic.getScore());
-
-        // Get AI move
-        String aiMove = ai.findBestMove(board);
-
-        // Apply the move if valid
-        if (aiMove != null && !aiMove.isEmpty()) {
-            animateMove(aiMove);
+        if (board.gameLogic == null) {
+            board.gameLogic = new game.GameLogic(board);
         }
+
+        String move = ai.findBestMove(board);
+
+        if (move != null) {
+            // Use animateMove to perform the move with animations
+            // just like when the user presses a key
+            animateMove(move);
+            return true;
+        }
+
+        return false;
     }
 
     // Animate a move
@@ -208,12 +214,9 @@ public class GameBoard extends JPanel {
         g2.setColor(new Color(187, 173, 160));
         g2.fillRoundRect((getWidth() - BOARD_SIZE) / 2, 100, BOARD_SIZE, BOARD_SIZE, 20, 20);
 
-        // Draw animations if any
-        boolean animating = false;
         for (TileAnimation anim : animations) {
             if (anim.isRunning()) {
                 anim.paint(g2, TILE_SIZE, TILE_MARGIN);
-                animating = true;
             }
         }
 
@@ -274,29 +277,29 @@ public class GameBoard extends JPanel {
     private Color getTileColor(int value) {
         switch (value) {
             case 0:
-                return new Color(205, 193, 180);
+                return Constants.TILE_COLOR_EMPTY;
             case 2:
-                return new Color(238, 228, 218);
+                return Constants.TILE_COLOR_2;
             case 4:
-                return new Color(237, 224, 200);
+                return Constants.TILE_COLOR_4;
             case 8:
-                return new Color(242, 177, 121);
+                return Constants.TILE_COLOR_8;
             case 16:
-                return new Color(245, 149, 99);
+                return Constants.TILE_COLOR_16;
             case 32:
-                return new Color(246, 124, 95);
+                return Constants.TILE_COLOR_32;
             case 64:
-                return new Color(246, 94, 59);
+                return Constants.TILE_COLOR_64;
             case 128:
-                return new Color(237, 207, 114);
+                return Constants.TILE_COLOR_128;
             case 256:
-                return new Color(237, 204, 97);
+                return Constants.TILE_COLOR_256;
             case 512:
-                return new Color(237, 200, 80);
+                return Constants.TILE_COLOR_512;
             case 1024:
-                return new Color(237, 197, 63);
+                return Constants.TILE_COLOR_1024;
             case 2048:
-                return new Color(237, 194, 46);
+                return Constants.TILE_COLOR_2048;
             default:
                 return new Color(60, 58, 50);
         }
