@@ -1,7 +1,7 @@
-\contentsline {codeexample}{\numberline {1}Board Class Implementation with Grid Management}{9}{codeexample.1}%
-\contentsline {codeexample}{\numberline {2}GameLogic Class Implementation with Game State Management}{9}{codeexample.2}%
-\contentsline {codeexample}{\numberline {3}State Management for Undo Functionality}{14}{codeexample.3}%
-\contentsline {codeexample}{\numberline {4}Score Management and Persistence}{15}{codeexample.4}%
-\contentsline {codeexample}{\numberline {5}Tile Movement and Merging Logic}{18}{codeexample.5}%
-\contentsline {codeexample}{\numberline {6}Weighted Random Tile Generation}{22}{codeexample.6}%
-\contentsline {codeexample}{\numberline {7}Comprehensive Game Over Detection Logic}{23}{codeexample.7}%
+\contentsline {codeexample}{\numberline {1}Board Class Implementation with Grid Management}{8}{codeexample.1}%
+\contentsline {codeexample}{\numberline {2}GameLogic Class Implementation with Game State Management}{8}{codeexample.2}%
+\contentsline {codeexample}{\numberline {3}State Management for Undo Functionality}{13}{codeexample.3}%
+\contentsline {codeexample}{\numberline {4}Score Management and Persistence}{14}{codeexample.4}%
+\contentsline {codeexample}{\numberline {5}Tile Movement and Merging Logic}{17}{codeexample.5}%
+\contentsline {codeexample}{\numberline {6}Weighted Random Tile Generation}{21}{codeexample.6}%
+\contentsline {codeexample}{\numberline {7}Comprehensive Game Over Detection Logic}{22}{codeexample.7}%

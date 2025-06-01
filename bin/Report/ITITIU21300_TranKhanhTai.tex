@@ -124,10 +124,6 @@
 \listoftables
 \clearpage
 
-% List of code listings
-\lstlistoflistings
-\clearpage
-
 % List of code examples
 \listofcodeexample
 \clearpage
@@ -662,6 +658,14 @@ public class ScoreManager implements ScoreService {
 \end{lstlisting}
 This class implements the \textbf{ScoreService} interface for score management, providing methods to load, save, and update scores. It uses a text file for persistence, ensuring that scores are retained across game sessions.
 
+\subsubsection{UI and Animation System}
+The UI system consists of several key components:
+\begin{itemize}
+    \item \textbf{GameBoard}: Handles rendering and user input
+    \item \textbf{TileAnimation}: Manages smooth visual transitions
+    \item \textbf{Game2048}: Main game window coordination
+\end{itemize}
+
 \section{Algorithms}
 
 \subsection{Move and Merge Algorithm}
@@ -1020,7 +1024,7 @@ public boolean isWin() {
 \hline
 Board Initialization & O(n²) & n is the board size (typically 4) \\
 \hline
-Tile Movement & O(n³) & Worst case when all tiles need to move \\
+Tile Movement & O(n²) & Processing each cell for movement and merging \\
 \hline
 Game State Check & O(n²) & Checking for win/loss conditions \\
 \hline
@@ -1082,16 +1086,17 @@ The implementation of the 2048 game demonstrates practical application of data s
 \subsection{Limitations}
 \begin{itemize}
     \item The current implementation has O(n³) complexity for moves in the worst case
-    \item No undo functionality or game state saving
     \item Limited animation capabilities
 \end{itemize}
 
-Future improvements could include optimizing the move algorithm for better performance, adding game state saving functionality, and implementing more sophisticated animations.
+Future improvements could include optimizing the move algorithm for better performance, and implementing more sophisticated animations.
 
 \subsection{Future Work}
 Potential enhancements for future versions include:
 \begin{itemize}
     \item AI solver using minimax or expectimax algorithms
+    \item Using Ai to automatically play the game
+    \item Enhanced graphics and animations
     \item Mobile-friendly touch interface
     \item Online leaderboards
     \item Customizable board sizes

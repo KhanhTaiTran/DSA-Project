@@ -31,7 +31,6 @@ The project is organized using a clean, layered architecture:
 ├── src/
 │   ├── animation/         # Animation system for smooth tile movement
 │   ├── Constants/         # Game configuration and constants
-│   ├── enums/             # Type-safe enumerations (Direction, etc.)
 │   ├── game/              # Legacy game logic (targeted for refactoring)
 │   ├── interfaces/        # Core interfaces defining the system behavior
 │   ├── service/           # Business logic implementations
